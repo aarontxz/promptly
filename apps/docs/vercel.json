@@ -1,0 +1,12 @@
+{
+  "version": 2, 
+  "name": "promptly-docs",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next" 
+    }
+  ],
+  "installCommand": "cd ../.. && npm install",
+  "buildCommand": "cd ../.. && npm run build --filter=docs"
+}
