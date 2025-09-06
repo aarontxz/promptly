@@ -11,6 +11,7 @@
   "devDependencies": {
     "prettier": "^3.6.2",
     "turbo": "^2.5.6",
+    "turbo-ignore": "^2.5.6",
     "typescript": "5.9.2"
   },
   "engines": {
@@ -18,7 +19,8 @@
   },
   "packageManager": "npm@10.9.2",
   "workspaces": [
-    "apps/*",
+    "apps/web",
+    "apps/docs",
     "packages/*"
   ]
 }

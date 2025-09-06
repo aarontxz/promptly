@@ -1,6 +1,6 @@
 {
   "version": 2,
   "installCommand": "npm install", 
-  "buildCommand": "npm run build --filter=web",
-  "ignoreCommand": "npx turbo-ignore web --fallback=apps/web"
+  "buildCommand": "npx turbo build --filter=web",
+  "ignoreCommand": "npx turbo-ignore web"
 }
