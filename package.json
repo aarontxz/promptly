@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
-    "dev:full": "concurrently \"npm run dev:api\" \"npm run dev:frontend\" --names \"API,WEB\" --prefix-colors \"cyan,magenta\"",
+    "dev": "turbo run dev --filter=web",
+    "dev:full": "concurrently \"npm run dev:api\" \"npm run dev:web\" --names \"API,WEB\" --prefix-colors \"cyan,magenta\"",
     "dev:api": "cd apps/api && source ../../.venv/bin/activate && python run_dev.py",
-    "dev:frontend": "turbo run dev",
+    "dev:frontend": "turbo run dev --filter=web",
     "dev:web": "turbo run dev --filter=web",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
@@ -25,7 +25,6 @@
   "packageManager": "npm@10.9.2",
   "workspaces": [
     "apps/web",
-    "apps/docs",
     "packages/*"
   ]
 }

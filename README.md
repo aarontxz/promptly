@@ -31,7 +31,6 @@ npm run dev:full
 
 This will start:
 - **Web app**: http://localhost:3000
-- **Docs app**: http://localhost:3001  
 - **API backend**: http://localhost:8000
 - **API docs**: http://localhost:8000/docs
 
@@ -41,14 +40,9 @@ This will start:
 ```bash
 # Run just the web app
 npm run dev:web
-# OR
-npx turbo dev --filter=web
 
-# Run just the docs app  
-npx turbo dev --filter=docs
-
-# Run all frontend apps (web + docs)
-npm run dev
+# Run all frontend apps if needed (includes docs)
+npx turbo dev
 ```
 
 #### Backend Only
