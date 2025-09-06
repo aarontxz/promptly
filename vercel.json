@@ -3,6 +3,5 @@
   "projectSettings": {
     "rootDirectory": "apps/web"
   },
-  "buildCommand": "cd ../.. && npx turbo build --filter=web",
-  "ignoreCommand": "npx turbo-ignore web"
+  "buildCommand": "cd ../.. && npx turbo build --filter=web"
 }

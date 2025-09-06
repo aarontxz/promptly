@@ -8,10 +8,9 @@ This Turborepo includes the following packages/apps:
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app  
+- `web`: the main [Next.js](https://nextjs.org/) app with Google authentication
 - `api`: a [FastAPI](https://fastapi.tiangolo.com/) backend with PostgreSQL
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/ui`: a stub React component library shared by applications
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
@@ -40,9 +39,6 @@ This will start:
 ```bash
 # Run just the web app
 npm run dev:web
-
-# Run all frontend apps if needed (includes docs)
-npx turbo dev
 ```
 
 #### Backend Only
