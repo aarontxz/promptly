@@ -1,9 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from typing import List, Optional, TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from typing import ForwardRef
+from typing import List, Optional
 
 
 class FlashcardBase(BaseModel):
@@ -20,16 +17,6 @@ class FlashcardUpdate(BaseModel):
     back: Optional[str] = None
 
 
-class Flashcard(FlashcardBase):
-    model_config = ConfigDict(from_attributes=True)
-    
-    id: int
-    deck_id: int
-    is_active: bool
-    created_at: datetime
-    updated_at: Optional[datetime] = None
-
-
 class DeckBase(BaseModel):
     name: str
     description: Optional[str] = None
@@ -44,17 +31,6 @@ class DeckUpdate(BaseModel):
     description: Optional[str] = None
 
 
-class Deck(DeckBase):
-    model_config = ConfigDict(from_attributes=True)
-    
-    id: int
-    owner_id: int
-    is_active: bool
-    created_at: datetime
-    updated_at: Optional[datetime] = None
-    flashcards: List["Flashcard"] = []
-
-
 class UserBase(BaseModel):
     email: str
     name: str
@@ -65,7 +41,28 @@ class UserCreate(UserBase):
     picture: Optional[str] = None
 
 
-class User(UserBase):
+# Simple response schemas without relationships
+class FlashcardResponse(FlashcardBase):
+    model_config = ConfigDict(from_attributes=True)
+    
+    id: int
+    deck_id: int
+    is_active: bool
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+
+
+class DeckResponse(DeckBase):
+    model_config = ConfigDict(from_attributes=True)
+    
+    id: int
+    owner_id: int
+    is_active: bool
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+
+
+class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
     
     id: int
@@ -74,9 +71,18 @@ class User(UserBase):
     is_active: bool
     created_at: datetime
     updated_at: Optional[datetime] = None
-    decks: List["Deck"] = []
 
 
-# Update forward references
-Deck.model_rebuild()
-User.model_rebuild()
+# Complex schemas with relationships (for when you need them)
+class DeckWithFlashcards(DeckResponse):
+    flashcards: List[FlashcardResponse] = []
+
+
+class UserWithDecks(UserResponse):
+    decks: List[DeckResponse] = []
+
+
+# Keep the original names for backward compatibility
+Flashcard = FlashcardResponse
+Deck = DeckResponse  
+User = UserResponse
