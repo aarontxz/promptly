@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
 from dotenv import load_dotenv
-from app.routers import items, auth
+from app.routers import auth, decks, flashcards
 from app.database import engine
 from app.db_models import Base
 
@@ -30,7 +30,8 @@ app.add_middleware(
 
 # Include routers
 app.include_router(auth.router, tags=["auth"])
-app.include_router(items.router, tags=["items"])
+app.include_router(decks.router, tags=["decks"])
+app.include_router(flashcards.router, tags=["flashcards"])
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))

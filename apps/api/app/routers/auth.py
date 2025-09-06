@@ -7,8 +7,7 @@ from sqlalchemy.orm import Session
 
 from ..auth import verify_google_token, create_access_token, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from ..database import get_db
-from ..db_models import User as DBUser
-from ..models import User, UserCreate
+from ..db_models import User as User
 
 router = APIRouter()
 
