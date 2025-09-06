@@ -25,8 +25,8 @@ Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 # Install all dependencies
 npm install
 
-# Start all services in development mode
-npm run dev
+# Start all services in development mode (includes API backend)
+npm run dev:full
 ```
 
 This will start:
@@ -40,15 +40,22 @@ This will start:
 #### Frontend Only
 ```bash
 # Run just the web app
+npm run dev:web
+# OR
 npx turbo dev --filter=web
 
 # Run just the docs app  
 npx turbo dev --filter=docs
+
+# Run all frontend apps (web + docs)
+npm run dev
 ```
 
 #### Backend Only
 ```bash
 # Run just the API
+npm run dev:api
+# OR
 cd apps/api
 python run_dev.py
 ```

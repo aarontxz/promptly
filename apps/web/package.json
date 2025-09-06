@@ -11,8 +11,11 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
     "@repo/ui": "*",
+    "googleapis": "^159.0.0",
     "next": "^15.5.0",
+    "next-auth": "^4.24.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
