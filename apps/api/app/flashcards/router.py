@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from ..database import get_db
-from ..auth import get_current_user
+from ..authenticate import get_current_user
 from .. import db_models, schemas
 
 router = APIRouter(prefix="/flashcards", tags=["flashcards"])
@@ -13,7 +13,7 @@ def create_flashcard(
     deck_id: int,
     flashcard: schemas.FlashcardCreate,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     # Verify the deck belongs to the current user
     deck = db.query(db_models.Deck).filter(
@@ -45,7 +45,7 @@ def get_deck_flashcards(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     # Verify the deck belongs to the current user
     deck = db.query(db_models.Deck).filter(
@@ -72,7 +72,7 @@ def get_deck_flashcards(
 def get_flashcard(
     flashcard_id: int,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     flashcard = db.query(db_models.Flashcard).join(db_models.Deck).filter(
         db_models.Flashcard.id == flashcard_id,
@@ -94,7 +94,7 @@ def update_flashcard(
     flashcard_id: int,
     flashcard_update: schemas.FlashcardUpdate,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     flashcard = db.query(db_models.Flashcard).join(db_models.Deck).filter(
         db_models.Flashcard.id == flashcard_id,
@@ -121,7 +121,7 @@ def update_flashcard(
 def delete_flashcard(
     flashcard_id: int,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     flashcard = db.query(db_models.Flashcard).join(db_models.Deck).filter(
         db_models.Flashcard.id == flashcard_id,

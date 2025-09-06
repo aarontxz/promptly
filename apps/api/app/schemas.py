@@ -38,7 +38,6 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     google_id: Optional[str] = None
-    picture: Optional[str] = None
 
 
 # Simple response schemas without relationships
@@ -67,7 +66,6 @@ class UserResponse(UserBase):
     
     id: int
     google_id: Optional[str] = None
-    picture: Optional[str] = None
     is_active: bool
     created_at: datetime
     updated_at: Optional[datetime] = None

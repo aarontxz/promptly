@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from ..database import get_db
-from ..auth import get_current_user
+from ..authenticate import get_current_user
 from .. import db_models, schemas
 
 router = APIRouter(prefix="/decks", tags=["decks"])
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/decks", tags=["decks"])
 def create_deck(
     deck: schemas.DeckCreate,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     db_deck = db_models.Deck(
         name=deck.name,
@@ -30,7 +30,7 @@ def get_user_decks(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     decks = db.query(db_models.Deck).filter(
         db_models.Deck.owner_id == current_user.id,
@@ -43,7 +43,7 @@ def get_user_decks(
 def get_deck(
     deck_id: int,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     deck = db.query(db_models.Deck).filter(
         db_models.Deck.id == deck_id,
@@ -65,7 +65,7 @@ def update_deck(
     deck_id: int,
     deck_update: schemas.DeckUpdate,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     deck = db.query(db_models.Deck).filter(
         db_models.Deck.id == deck_id,
@@ -92,7 +92,7 @@ def update_deck(
 def delete_deck(
     deck_id: int,
     db: Session = Depends(get_db),
-    current_user: schemas.User = Depends(get_current_user)
+    current_user: db_models.User = Depends(get_current_user)
 ):
     deck = db.query(db_models.Deck).filter(
         db_models.Deck.id == deck_id,

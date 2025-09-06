@@ -2,7 +2,8 @@
 
 import { signIn, signOut, useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
-import { apiService, User } from "../../lib/api"
+import { apiService } from "../../lib/services/base"
+import { User } from "../../lib/types"
 
 export function LoginButton() {
   const { data: session, status } = useSession()
@@ -25,7 +26,6 @@ export function LoginButton() {
             const backendResponse = await apiService.syncUserWithBackend({
               email: sessionData.user.email,
               name: sessionData.user.name,
-              picture: sessionData.user.image,
               google_id: sessionData.user.id || sessionData.user.email
             })
             setBackendUser(backendResponse.user)
@@ -42,7 +42,7 @@ export function LoginButton() {
   const handleGoogleLogin = async () => {
     setIsLoading(true)
     try {
-      await signIn("google", { callbackUrl: "/" })
+      await signIn("google", { callbackUrl: "/decks" })
     } catch (error) {
       console.error("Login failed:", error)
     } finally {
