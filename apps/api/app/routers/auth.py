@@ -7,7 +7,8 @@ from sqlalchemy.orm import Session
 
 from ..auth import verify_google_token, create_access_token, get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES
 from ..database import get_db
-from ..db_models import User as User
+from ..db_models import User as DBUser
+from .. import schemas
 
 router = APIRouter()
 
@@ -26,7 +27,7 @@ class UserSyncRequest(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str
-    user: User
+    user: schemas.User
 
 
 @router.post("/auth/google", response_model=TokenResponse)
@@ -56,7 +57,7 @@ async def google_auth(
         
         if not db_user:
             # Create new user
-            user_data = UserCreate(
+            user_data = schemas.UserCreate(
                 email=email,
                 name=name or email,
                 google_id=google_id,
@@ -87,14 +88,7 @@ async def google_auth(
         )
         
         # Convert db_user to Pydantic model
-        user = User(
-            id=db_user.id,
-            email=db_user.email,
-            name=db_user.name,
-            picture=db_user.picture,
-            created_at=db_user.created_at,
-            updated_at=db_user.updated_at
-        )
+        user = schemas.User.model_validate(db_user)
         
         return TokenResponse(
             access_token=access_token,
@@ -139,14 +133,7 @@ async def sync_user(
             db.refresh(db_user)
         
         # Convert db_user to Pydantic model
-        user = User(
-            id=db_user.id,
-            email=db_user.email,
-            name=db_user.name,
-            picture=db_user.picture,
-            created_at=db_user.created_at,
-            updated_at=db_user.updated_at
-        )
+        user = schemas.User.model_validate(db_user)
         
         return {"user": user}
         
@@ -157,7 +144,7 @@ async def sync_user(
         )
 
 
-@router.get("/auth/me", response_model=User)
+@router.get("/auth/me", response_model=schemas.User)
 async def get_me(
     current_user=Depends(get_current_user),
     db: Session = Depends(get_db)
