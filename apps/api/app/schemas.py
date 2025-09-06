@@ -1,6 +1,9 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing import ForwardRef
 
 
 class FlashcardBase(BaseModel):
@@ -49,7 +52,7 @@ class Deck(DeckBase):
     is_active: bool
     created_at: datetime
     updated_at: Optional[datetime] = None
-    flashcards: List[Flashcard] = []
+    flashcards: List["Flashcard"] = []
 
 
 class UserBase(BaseModel):
@@ -71,4 +74,9 @@ class User(UserBase):
     is_active: bool
     created_at: datetime
     updated_at: Optional[datetime] = None
-    decks: List[Deck] = []
+    decks: List["Deck"] = []
+
+
+# Update forward references
+Deck.model_rebuild()
+User.model_rebuild()
