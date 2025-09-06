@@ -1,0 +1,9 @@
+# Ignore frontend files when deploying API to Render
+apps/web/
+apps/docs/
+packages/
+node_modules/
+package*.json
+turbo.json
+.vercel*
+**/.next/

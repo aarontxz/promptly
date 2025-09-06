@@ -1,0 +1,8 @@
+# Ignore Python backend files when deploying to Vercel
+apps/api/
+**/__pycache__/
+**/*.pyc
+**/.env
+**/venv/
+**/.venv/
+**/requirements.txt

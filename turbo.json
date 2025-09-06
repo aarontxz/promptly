@@ -20,5 +20,8 @@
     "install": {
       "cache": false
     }
+  },
+  "remoteCache": {
+    "signature": true
   }
 }
