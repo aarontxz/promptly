@@ -1,0 +1,14 @@
+{
+  "name": "@promptly/api",
+  "version": "1.0.0",
+  "description": "FastAPI backend for Promptly application",
+  "scripts": {
+    "dev": "/Users/tengxinzhuan/promptly/.venv/bin/python main.py",
+    "start": "/Users/tengxinzhuan/promptly/.venv/bin/uvicorn main:app --host 0.0.0.0 --port 8000",
+    "install": "/Users/tengxinzhuan/promptly/.venv/bin/pip install -r requirements.txt",
+    "lint": "echo 'Python linting not configured yet'",
+    "check-types": "echo 'Python type checking not configured yet'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

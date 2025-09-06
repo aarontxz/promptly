@@ -1,14 +1,6 @@
-# Turborepo starter
+# Promptly
 
-This Turborepo starter is maintained by the Turborepo core team.
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
+A modern full-stack application built with Next.js (frontend) and FastAPI (backend) in a Turborepo monorepo.
 
 ## What's inside?
 
@@ -17,12 +9,56 @@ This Turborepo includes the following packages/apps:
 ### Apps and Packages
 
 - `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app  
+- `api`: a [FastAPI](https://fastapi.tiangolo.com/) backend with PostgreSQL
 - `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+
+## Quick Start
+
+### 🚀 Run Everything (Frontend + Backend)
+
+```bash
+# Install all dependencies
+npm install
+
+# Start all services in development mode
+npm run dev
+```
+
+This will start:
+- **Web app**: http://localhost:3000
+- **Docs app**: http://localhost:3001  
+- **API backend**: http://localhost:8000
+- **API docs**: http://localhost:8000/docs
+
+### 🎯 Run Individual Services
+
+#### Frontend Only
+```bash
+# Run just the web app
+npx turbo dev --filter=web
+
+# Run just the docs app  
+npx turbo dev --filter=docs
+```
+
+#### Backend Only
+```bash
+# Run just the API
+cd apps/api
+python run_dev.py
+```
+
+## Database Setup
+
+The API uses PostgreSQL (Neon). Make sure you:
+1. Have a Neon account and database
+2. Update `apps/api/.env` with your DATABASE_URL
+3. The database tables will be created automatically on first run
 
 ### Utilities
 
