@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "FastAPI backend for Promptly application",
   "scripts": {
-    "dev": "python main.py",
+    "dev": "/Users/tengxinzhuan/promptly/.venv/bin/python main.py",
+    "dev-local": "/Users/tengxinzhuan/promptly/.venv/bin/python main.py",
+    "dev-deploy": "python main.py",
     "start": "uvicorn main:app --host 0.0.0.0 --port 8000",
     "install": "pip install -r requirements.txt",
     "lint": "echo 'Python linting not configured yet'",

@@ -1,0 +1,15 @@
+{
+  "name": "@promptly/api",
+  "version": "1.0.0", 
+  "description": "FastAPI backend for Promptly application",
+  "scripts": {
+    "dev": "echo 'API not deployable on Vercel - use Render'",
+    "start": "echo 'API not deployable on Vercel - use Render'",
+    "build": "echo 'API build complete'",
+    "install": "echo 'API install complete'",
+    "lint": "echo 'Python linting not configured'", 
+    "check-types": "echo 'Python type checking not configured'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
