@@ -47,8 +47,7 @@ export default function DeckPage({ params }: { params: Promise<{ id: string }> }
     try {
       setLoading(true);
       const deckData = await api.getDeck(deckId);
-      const flashcards = await api.getDeckFlashcards(deckId);
-      setDeck({ ...deckData, flashcards });
+      setDeck(deckData);
     } catch (error) {
       console.error('Error fetching deck:', error);
       router.push('/decks');
