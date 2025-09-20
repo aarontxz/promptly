@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { api } from '../../../lib/services';
 import { Navigation } from '../../components/Navigation';
 
@@ -21,7 +21,7 @@ interface Deck {
   flashcards: Flashcard[];
 }
 
-export default function DeckPage({ params }: { params: { id: string } }) {
+export default function DeckPage({ params }: { params: Promise<{ id: string }> }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [deck, setDeck] = useState<Deck | null>(null);
@@ -32,7 +32,8 @@ export default function DeckPage({ params }: { params: { id: string } }) {
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showBack, setShowBack] = useState(false);
 
-  const deckId = parseInt(params.id);
+  const resolvedParams = use(params);
+  const deckId = parseInt(resolvedParams.id);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -40,7 +41,7 @@ export default function DeckPage({ params }: { params: { id: string } }) {
     } else if (status === 'authenticated') {
       fetchDeck();
     }
-  }, [status, router, deckId]);
+  }, [status, router, resolvedParams.id]);
 
   const fetchDeck = async () => {
     try {
