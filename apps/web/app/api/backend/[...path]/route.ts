@@ -1,35 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../auth/[...nextauth]/route'
+import { authOptions } from '../../../../lib/auth'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
-  return handleApiProxy(request, params.path, 'GET')
+  const { path } = await params
+  return handleApiProxy(request, path, 'GET')
 }
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
-  return handleApiProxy(request, params.path, 'POST')
+  const { path } = await params
+  return handleApiProxy(request, path, 'POST')
 }
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
-  return handleApiProxy(request, params.path, 'PUT')
+  const { path } = await params
+  return handleApiProxy(request, path, 'PUT')
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
-  return handleApiProxy(request, params.path, 'DELETE')
+  const { path } = await params
+  return handleApiProxy(request, path, 'DELETE')
 }
 
 async function handleApiProxy(
