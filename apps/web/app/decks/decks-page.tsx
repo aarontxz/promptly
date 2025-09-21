@@ -3,19 +3,12 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { api } from '../../lib/api';
+import { api } from '../../lib/services';
 import { Navigation } from '../components/Navigation';
-
-interface Deck {
-  id: number;
-  name: string;
-  description?: string;
-  created_at: string;
-  flashcards: any[];
-}
+import { Deck } from '../../lib/types';
 
 export default function DecksPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState(true);
