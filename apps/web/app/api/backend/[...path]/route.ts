@@ -99,8 +99,16 @@ async function handleApiProxy(
       }
     }
 
+    // Helper to get session token from cookies (handles both dev and prod)
+    function getSessionTokenFromCookies(cookies: { get: (name: string) => { value?: string } | undefined }) {
+      return (
+        cookies.get('__Secure-next-auth.session-token')?.value ||
+        cookies.get('next-auth.session-token')?.value
+      )
+    }
+
     // Get the session token from cookies
-    const sessionToken = request.cookies.get('next-auth.session-token')?.value
+    const sessionToken = getSessionTokenFromCookies(request.cookies)
     console.log(sessionToken)
     console.log('jer')
 
