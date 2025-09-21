@@ -1,4 +1,4 @@
-export default function Hero() {
+export default function LandingPage() {
   return (
     <div className="text-center">
       <h1 className="text-6xl font-bold text-gray-900 mb-6">
