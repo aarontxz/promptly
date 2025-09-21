@@ -1,5 +1,8 @@
 import os
-from typing import Optional
+from typing import Optional, Any, Dict
+import json
+from hkdf import Hkdf
+from jose import jwt, jwe, JWTError
 
 from fastapi import Depends, HTTPException, status, Request
 from google.auth.transport import requests
@@ -11,6 +14,26 @@ from .db_models import User
 
 # Google OAuth Configuration
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+NEXTAUTH_SECRET = os.getenv("NEXTAUTH_SECRET")
+
+
+def __encryption_key(secret: str):
+    return Hkdf("", bytes(secret, "utf-8")).expand(b"NextAuth.js Generated Encryption Key", 32)
+
+
+def encode_jwe(payload: Dict[str, Any], secret: str):
+    data = bytes(json.dumps(payload), "utf-8")
+    key = __encryption_key(secret)
+    return bytes.decode(jwe.encrypt(data, key), "utf-8")
+
+
+def decode_jwe(token: str, secret: str):
+    decrypted = jwe.decrypt(token, __encryption_key(secret))
+
+    if decrypted:
+        return json.loads(bytes.decode(decrypted, "utf-8"))
+    else:
+        return None
 
 
 def verify_google_token(token: str) -> dict:
@@ -37,13 +60,35 @@ def get_current_user(
     request: Request,
     db: Session = Depends(get_db)
 ):
-    """Get current user from email header (NextAuth integration)"""
-    # Get email from header (NextAuth integration)
-    user_email = request.headers.get("X-User-Email")
-    if user_email:
-        user = db.query(User).filter(User.email == user_email).first()
-        if user:
-            return user
+    """Get current user from NextAuth JWT token"""
+    authorization = request.headers.get("Authorization")
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated"
+        )
+    
+    token = authorization.split(" ")[1]
+    print(f"Token: {token}")  # Debug log
+    try:
+        print(f"Secret: {NEXTAUTH_SECRET}")  # Debug log
+        # NextAuth uses JWE (encrypted JWT), so decrypt first
+        decrypted_token = decode_jwe(token, NEXTAUTH_SECRET)
+        if decrypted_token is None:
+            raise Exception("Decryption failed")
+        print(f"Decrypted token: {decrypted_token}")  # Debug log
+        user_google_id = decrypted_token.get("id")
+        print(f"User google_id: {user_google_id}")  # Debug log
+        if user_google_id:
+            user = db.query(User).filter(User.google_id == user_google_id).first()
+            print(f"User found: {user}")  # Debug log
+            if user:
+                return user
+    except Exception as e:
+        print(f"Error: {e}")  # Debug log
+        import traceback
+        traceback.print_exc()
+    
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Not authenticated"

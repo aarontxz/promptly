@@ -44,6 +44,8 @@ async function handleApiProxy(
   try {
     const session = await getServerSession(authOptions)
     
+    console.log('Session:', session)
+    
     if (!session?.user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -89,7 +91,7 @@ async function handleApiProxy(
             email: session.user.email,
             name: session.user.name || session.user.email,
             picture: session.user.image,
-            google_id: session.user.email // Use email as fallback ID
+            google_id: session.user.id // Use the actual Google ID from session
           })
         })
       } catch (error) {
@@ -97,16 +99,21 @@ async function handleApiProxy(
       }
     }
 
+    // Get the session token from cookies
+    const sessionToken = request.cookies.get('next-auth.session-token')?.value
+    console.log(sessionToken)
+    console.log('jer')
+
     // Make the actual API request
     const response = await fetch(url, {
       method,
       headers: {
         'Content-Type': contentType,
-        'X-User-Email': session.user.email || '',
+        ...(sessionToken ? { 'Authorization': `Bearer ${sessionToken}` } : {}),
         // Add any other headers from the original request (excluding content-length)
         ...Object.fromEntries(
           Array.from(request.headers.entries()).filter(
-            ([key]) => !['content-length', 'host', 'content-type'].includes(key.toLowerCase())
+            ([key]) => !['content-length', 'host', 'content-type', 'authorization'].includes(key.toLowerCase())
           )
         )
       },

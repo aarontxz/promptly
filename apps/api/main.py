@@ -24,7 +24,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "https://promptly-r1d6.onrender.com"],  # Add your frontend URLs
+    allow_origins=["http://localhost:3000", "http://localhost:3001", "https://promptly-r1d6.onrender.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
