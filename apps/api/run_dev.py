@@ -14,8 +14,8 @@ def main():
     script_dir = Path(__file__).parent
     os.chdir(script_dir)
     
-    # Start the server using the virtual environment python
-    python_path = "/Users/tengxinzhuan/promptly/.venv/bin/python"
+    # Start the server using the current Python interpreter
+    python_path = sys.executable
     
     print("🚀 Starting Promptly FastAPI development server...")
     print(f"📍 API will be available at: http://localhost:8000")

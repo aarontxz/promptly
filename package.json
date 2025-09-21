@@ -5,7 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --filter=web",
     "dev:full": "concurrently \"npm run dev:api\" \"npm run dev:web\" --names \"API,WEB\" --prefix-colors \"cyan,magenta\"",
-    "dev:api": "cd apps/api && source ../../.venv/bin/activate && python run_dev.py",
+    "dev:api": "cd apps/api && python run_dev.py",
     "dev:frontend": "turbo run dev --filter=web",
     "dev:web": "turbo run dev --filter=web",
     "lint": "turbo run lint",
