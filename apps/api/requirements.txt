@@ -10,3 +10,4 @@ google-auth==2.23.4
 google-auth-oauthlib==1.1.0
 cryptography==43.0.3
 hkdf==0.0.3
+python-jose==3.3.0

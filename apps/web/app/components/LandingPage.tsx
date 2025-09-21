@@ -1,26 +1,28 @@
+import React, { useState } from "react";
+import { LoginButton } from "./LoginButton";
+import "../background.css";
+
 export default function LandingPage() {
+  const [headingText] = useState("Welcome to Promptly");
+
   return (
-    <div className="text-center">
-      <h1 className="text-6xl font-bold text-gray-900 mb-6">
-        Welcome to{' '}
-        <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Promptly
-        </span>
-      </h1>
-      <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-        The modern platform for managing prompts, ideas, and creative workflows. 
-        Get started with your Gmail account and unlock your productivity potential.
-      </p>
-      <div className="flex justify-center space-x-8 text-sm text-gray-500 mb-12">
-        <div className="flex items-center">
-          Secure & Private
-        </div>
-        <div className="flex items-center">
-          Fast & Reliable
-        </div>
-        <div className="flex items-center">
-          Easy to Use
-        </div>
+    <div className="page-container min-h-screen flex flex-col justify-center bg-modern-gradient px-6 py-12 gap-5">
+      {/* Centered heading */}
+<div className="text-center">
+  <h1
+    style={{ 
+      marginBottom: "6rem",
+      fontSize: "clamp(5rem, 12vw, 8rem)" // responsive font size: min 80px, scales with viewport, max 240px
+    }}
+    className="font-extrabold text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-500 to-gray-900 drop-shadow-lg"
+  >
+    {headingText}
+  </h1>
+</div>
+
+      {/* Button with 20px gap from heading */}
+      <div className="w-full flex justify-center">
+        <LoginButton />
       </div>
     </div>
   );

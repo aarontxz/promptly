@@ -11,11 +11,11 @@ interface Deck {
   name: string;
   description?: string;
   created_at: string;
-  flashcards: any[];
+  flashcards: Array<{ id: number; front: string; back: string }>;
 }
 
 export default function DecksPage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [decks, setDecks] = useState<Deck[]>([]);
   const [loading, setLoading] = useState(true);

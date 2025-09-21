@@ -15,20 +15,20 @@ def main():
     os.chdir(script_dir)
     
     # Start the server using the virtual environment python
-    python_path = "/Users/tengxinzhuan/promptly/.venv/bin/python"
+    python_path = sys.executable
     
-    print("🚀 Starting Promptly FastAPI development server...")
-    print(f"📍 API will be available at: http://localhost:8000")
-    print(f"📖 API docs will be available at: http://localhost:8000/docs")
-    print(f"🔄 Auto-reload is enabled for development")
+    print(" Starting Promptly FastAPI development server...")
+    print(f" API will be available at: http://localhost:8000")
+    print(f" API docs will be available at: http://localhost:8000/docs")
+    print(f" Auto-reload is enabled for development")
     print("=" * 50)
     
     try:
         subprocess.run([python_path, "main.py"], check=True)
     except KeyboardInterrupt:
-        print("\n👋 Server stopped by user")
+           print("\nServer stopped by user")
     except subprocess.CalledProcessError as e:
-        print(f"❌ Server failed to start: {e}")
+        print(f"Server failed to start: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":

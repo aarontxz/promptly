@@ -1,0 +1,6 @@
+/* background.css: Modern reusable background for page containers */
+
+.bg-modern-gradient {
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 40%, #e0f2fe 70%, #0a68e2 100%);
+
+}
