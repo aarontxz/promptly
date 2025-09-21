@@ -3,11 +3,10 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import Hero from "./components/Hero"
-import { LoginButton } from "./components/LoginButton"
+import LandingPage from "./components/LandingPage";
 
 export default function HomePage() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -31,10 +30,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       <div className="container mx-auto px-4 py-8">
-        <Hero />
-        <div className="mt-12">
-          <LoginButton />
-        </div>
+        <LandingPage />
       </div>
     </main>
   )

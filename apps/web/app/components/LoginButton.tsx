@@ -64,9 +64,14 @@ export function LoginButton() {
   // Show loading state during session check
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center py-4">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
+      <button
+        disabled
+        className="flex items-center justify-center space-x-3 bg-white border border-gray-300 text-gray-500 font-medium py-3 px-6 rounded-lg shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{ minWidth: '200px', minHeight: '48px' }}
+      >
+        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-400"></div>
+        <span>Loading...</span>
+      </button>
     )
   }
 
@@ -97,15 +102,19 @@ export function LoginButton() {
 
   // Show login button if not authenticated
   return (
-    <div className="text-center space-y-4">
-      <button
-        onClick={handleGoogleLogin}
-        disabled={isLoading}
-        className="flex items-center justify-center space-x-3 bg-white hover:bg-gray-50 text-gray-900 font-bold py-4 px-8 rounded-lg shadow-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isLoading ? (
-          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></div>
-        ) : (
+    <button
+      onClick={handleGoogleLogin}
+      disabled={isLoading}
+      className="flex items-center justify-center space-x-3 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      style={{ minWidth: '200px', minHeight: '48px' }}
+    >
+      {isLoading ? (
+        <>
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-400"></div>
+          <span>Signing in...</span>
+        </>
+      ) : (
+        <>
           <svg className="w-5 h-5" viewBox="0 0 24 24">
             <path
               fill="#4285f4"
@@ -124,19 +133,9 @@ export function LoginButton() {
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
             />
           </svg>
-        )}
-        <span>{isLoading ? "Signing in..." : "Continue with Google"}</span>
-      </button>
-      
-      <div className="text-xs text-gray-500 space-x-4">
-        <a href="/terms" className="hover:text-gray-700 transition-colors">
-          Terms of Service
-        </a>
-        <span>•</span>
-        <a href="/privacy" className="hover:text-gray-700 transition-colors">
-          Privacy Policy
-        </a>
-      </div>
-    </div>
+          <span>Continue with Google</span>
+        </>
+      )}
+    </button>
   )
 }

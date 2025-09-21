@@ -5,7 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --filter=web",
     "dev:full": "concurrently \"npm run dev:api\" \"npm run dev:web\" --names \"API,WEB\" --prefix-colors \"cyan,magenta\"",
-    "dev:api": "cd apps/api && python run_dev.py",
+    "dev:api": "venv\\Scripts\\activate && python apps/api/run_dev.py",
     "dev:frontend": "turbo run dev --filter=web",
     "dev:web": "turbo run dev --filter=web",
     "lint": "turbo run lint",
@@ -13,8 +13,13 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "^4.1.13",
+    "@tailwindcss/postcss": "^4.1.13",
+    "autoprefixer": "^10.4.21",
     "concurrently": "^9.2.1",
+    "postcss": "^8.5.6",
     "prettier": "^3.6.2",
+    "tailwindcss": "^4.1.13",
     "turbo": "^2.5.6",
     "turbo-ignore": "^2.5.6",
     "typescript": "5.9.2"

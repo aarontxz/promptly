@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState, use, useCallback } from 'react';
 import { api } from '../../../lib/services';
 import { Navigation } from '../../components/Navigation';
 
@@ -22,7 +22,7 @@ interface Deck {
 }
 
 export default function DeckPage({ params }: { params: Promise<{ id: string }> }) {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const [deck, setDeck] = useState<Deck | null>(null);
   const [loading, setLoading] = useState(true);
@@ -35,15 +35,7 @@ export default function DeckPage({ params }: { params: Promise<{ id: string }> }
   const resolvedParams = use(params);
   const deckId = parseInt(resolvedParams.id);
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/');
-    } else if (status === 'authenticated') {
-      fetchDeck();
-    }
-  }, [status, router, resolvedParams.id]);
-
-  const fetchDeck = async () => {
+  const fetchDeck = useCallback(async () => {
     try {
       setLoading(true);
       const deckData = await api.getDeck(deckId);
@@ -54,7 +46,15 @@ export default function DeckPage({ params }: { params: Promise<{ id: string }> }
     } finally {
       setLoading(false);
     }
-  };
+  }, [deckId, router]);
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/');
+    } else if (status === 'authenticated') {
+      fetchDeck();
+    }
+  }, [status, router, fetchDeck]);
 
   const createFlashcard = async () => {
     if (!newCard.front.trim() || !newCard.back.trim()) return;

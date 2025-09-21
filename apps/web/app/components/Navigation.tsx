@@ -2,11 +2,9 @@
 
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export function Navigation() {
   const { data: session } = useSession();
-  const router = useRouter();
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: '/' });
