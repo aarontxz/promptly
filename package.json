@@ -7,7 +7,7 @@
     "dev:win": "concurrently \"npm run dev:api:win\" \"npm run dev:web\" --names \"API,WEB\" --prefix-colors \"cyan,magenta\"",
     "dev:full": "concurrently \"npm run dev:api:mac\" \"npm run dev:web\" --names \"API,WEB\" --prefix-colors \"cyan,magenta\"",
     "dev:api:win": "venv\\Scripts\\activate && python apps/api/run_dev.py",
-    "dev:api:mac": "cd apps/api && python run_dev.py",
+    "dev:api:mac": "cd apps/api && python3 run_dev.py",
     "dev:frontend": "turbo run dev --filter=web",
     "dev:web": "turbo run dev --filter=web",
     "lint": "turbo run lint",
@@ -32,6 +32,7 @@
   "packageManager": "npm@10.9.2",
   "workspaces": [
     "apps/web",
-    "packages/*"
+    "packages/eslint-config",
+    "packages/typescript-config"
   ]
 }

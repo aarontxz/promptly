@@ -5,6 +5,11 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { api } from '../../lib/services';
 import { Navigation } from '../components/Navigation';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 
 interface Deck {
   id: number;
@@ -74,7 +79,7 @@ export default function DecksPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <Navigation />
-      <div className="container mx-auto px-4 py-8">
+      <div className="px-4 py-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -82,51 +87,52 @@ export default function DecksPage() {
             <p className="text-gray-600">Manage your flashcard collections</p>
           </div>
           <div>
-            <button
-              onClick={() => setShowCreateForm(true)}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-            >
+            <Button onClick={() => setShowCreateForm(true)}>
               + Create Deck
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* Create Deck Form Modal */}
         {showCreateForm && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg w-96 max-w-full mx-4">
-              <h2 className="text-xl font-semibold mb-4">Create New Deck</h2>
-              <input
-                type="text"
-                placeholder="Deck name"
-                value={newDeck.name}
-                onChange={(e) => setNewDeck({ ...newDeck, name: e.target.value })}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <textarea
-                placeholder="Description (optional)"
-                value={newDeck.description}
-                onChange={(e) => setNewDeck({ ...newDeck, description: e.target.value })}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 h-20 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <div className="flex space-x-3">
-                <button
-                  onClick={createDeck}
-                  className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Create
-                </button>
-                <button
-                  onClick={() => {
-                    setShowCreateForm(false);
-                    setNewDeck({ name: '', description: '' });
-                  }}
-                  className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
+            <Card className="w-96 max-w-full mx-4">
+              <CardHeader>
+                <CardTitle>Create New Deck</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Input
+                  placeholder="Deck name"
+                  value={newDeck.name}
+                  onChange={(e) => setNewDeck({ ...newDeck, name: e.target.value })}
+                />
+                <Textarea
+                  placeholder="Description (optional)"
+                  value={newDeck.description}
+                  onChange={(e) => setNewDeck({ ...newDeck, description: e.target.value })}
+                  className="h-20 resize-none"
+                />
+                <div className="flex space-x-3">
+                  <Button 
+                    onClick={createDeck}
+                    disabled={!newDeck.name.trim()}
+                    className="flex-1"
+                  >
+                    Create
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setShowCreateForm(false);
+                      setNewDeck({ name: '', description: '' });
+                    }}
+                    className="flex-1"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         )}
 
@@ -140,43 +146,44 @@ export default function DecksPage() {
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-xl font-semibold text-gray-700 mb-2">No decks yet</h3>
             <p className="text-gray-500 mb-6">Create your first deck to get started with flashcards!</p>
-            <button
-              onClick={() => setShowCreateForm(true)}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
-            >
+            <Button onClick={() => setShowCreateForm(true)} size="lg">
               Create Your First Deck
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {decks.map((deck) => (
-              <div
+              <Card
                 key={deck.id}
+                className="cursor-pointer hover:shadow-lg transition-shadow"
                 onClick={() => openDeck(deck.id)}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer border border-gray-200"
               >
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-xl font-semibold text-gray-900 line-clamp-2">
-                    {deck.name}
-                  </h3>
-                  <span className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                    {deck.flashcards?.length || 0} cards
-                  </span>
-                </div>
-                {deck.description && (
-                  <p className="text-gray-600 mb-4 line-clamp-3">
-                    {deck.description}
-                  </p>
-                )}
-                <div className="flex justify-between items-center text-sm text-gray-500">
-                  <span>
-                    Created {new Date(deck.created_at).toLocaleDateString()}
-                  </span>
-                  <span className="text-blue-600 hover:text-blue-800">
-                    Open →
-                  </span>
-                </div>
-              </div>
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="text-xl line-clamp-2">
+                      {deck.name}
+                    </CardTitle>
+                    <Badge variant="secondary">
+                      {deck.flashcards?.length || 0} cards
+                    </Badge>
+                  </div>
+                  {deck.description && (
+                    <p className="text-muted-foreground line-clamp-3">
+                      {deck.description}
+                    </p>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between items-center text-sm text-muted-foreground">
+                    <span>
+                      Created {new Date(deck.created_at).toLocaleDateString()}
+                    </span>
+                    <span className="text-primary hover:text-primary/80">
+                      Open →
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         )}
