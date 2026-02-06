@@ -2,6 +2,13 @@
 
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuLink,
+} from '@/components/ui/navigation-menu';
 
 export function Navigation() {
   const { data: session } = useSession();
@@ -13,34 +20,39 @@ export function Navigation() {
   if (!session) return null;
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200">
-      <div className="flex items-center justify-between h-16">
-        <div className="flex items-center space-x-8">
-          <Link href="/decks" className="text-2xl font-bold text-blue-600">
-            Promptly
-          </Link>
-          <Link 
-            href="/decks" 
-            className="text-gray-700 hover:text-blue-600 transition-colors"
-          >
-            My Decks
-          </Link>
-        </div>
+    <div className="bg-green-600 border-b border-green-700 h-16 px-6">
+      <div className="flex items-center justify-between h-full max-w-7xl mx-auto">
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link 
+                  href="/decks" 
+                  className="text-white hover:text-green-200 transition-colors font-medium px-4 py-2 rounded-md hover:bg-green-700"
+                >
+                  My Decks
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
         
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
-            <span className="text-sm text-gray-700">
+            <span className="text-sm text-white">
               {session.user?.name}
             </span>
           </div>
-          <button
+          <Button
             onClick={handleLogout}
-            className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            variant="ghost"
+            size="sm"
+            className="text-white hover:text-green-200 hover:bg-green-700"
           >
             Logout
-          </button>
+          </Button>
         </div>
       </div>
-    </nav>
+    </div>
   );
 }

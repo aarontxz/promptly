@@ -105,8 +105,7 @@ export function LoginButton() {
     <button
       onClick={handleGoogleLogin}
       disabled={isLoading}
-      className="flex items-center justify-center space-x-3 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 shadow-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-      style={{ minWidth: '200px', minHeight: '48px' }}
+      className="flex items-center justify-center space-x-3 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-6 rounded-lg border border-gray-300 shadow-sm transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {isLoading ? (
         <>
